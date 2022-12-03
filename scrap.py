@@ -1,6 +1,8 @@
 import requests
 import os
 from time import time, sleep
+from rich import print as rprint
+from rich.progress import track
 
 api_url = "https://api.gtaliferp.fr:8443/v1/extinction/profiles/discord/304629682769494026"
 
@@ -30,7 +32,7 @@ stats_dict = {
     "death":11,
     "ratio":29,
     "zombie_redzone":23,
-    "kill_redzone":0,
+    "kill_redzone":4,
     "death_redzone":8,
     "ratio_redzone":30,
     "played_time":1
@@ -48,7 +50,7 @@ def time_conversion(playtime): ## askpython.com
     else:
         time = f"{hour_value}:{minutes}"
 
-    print(f"{time : <10} 🕒 Temps de jeu")
+    rprint(f"[cyan]{time : <10}[purple] 🕒 Temps de jeu")
 
 def main():
 
@@ -66,27 +68,32 @@ def main():
     deaths = data["stats"][stats_dict["death"]]["value"]
     ratio = data["stats"][stats_dict["ratio"]]["value"]
     zombie_redzone = data["stats"][stats_dict["zombie_redzone"]]["value"]
-    kills_redzone = data["leaderboard"][stats_dict["kill_redzone"]]["value"]
+    kills_redzone = data["stats"][stats_dict["kill_redzone"]]["value"]
     deaths_redzone = data["stats"][stats_dict["death_redzone"]]["value"]
     ratio_redzone = data["stats"][stats_dict["ratio_redzone"]]["value"]
     playtime = data["stats"][stats_dict["played_time"]]["value"]
     level = data["rank"]
 
 
-    print(f"{zombie_kills : <10} 🧟 Zombies tués")
-    print(f"{pvp_kills : <10} ⚔️ Opps tués")
-    print(f"{deaths : <10} 🩸 Morts")
-    print(f"{ratio : <10} 〽 Ratio")
-    print(f"{zombie_redzone : <10} 🧟🔴 Zombies tués en redzone")
-    print(f"{kills_redzone : <10} ⚔️🔴 Opps tués en redzone")
-    print(f"{deaths_redzone : <10} 🩸🔴 Morts en redzone")
-    print(f"{ratio_redzone : <10} 〽🔴 Ratio en redzone")
-    print(f"{level : <10} 👾 Niveau")
+    rprint(f"{zombie_kills : <10}[purple] 🧟 Zombies tués")
+    rprint(f"{pvp_kills : <10}[purple] ⚔️ Opps tués")
+    rprint(f"{deaths : <10}[purple] 🩸 Morts")
+    rprint(f"{ratio : <10}[purple] 〽 Ratio")
+    rprint(f"{zombie_redzone : <10}[purple] 🧟🔴 Zombies tués en redzone")
+    rprint(f"{kills_redzone : <10}[purple] ⚔️🔴 Opps tués en redzone")
+    rprint(f"{deaths_redzone : <10}[purple] 🩸🔴 Morts en redzone")
+    rprint(f"{ratio_redzone : <10}[purple] 〽🔴 Ratio en redzone")
+    rprint(f"{level : <10}[purple] 👾 Niveau")
 
     time_conversion(playtime)
 
 while True:
 
+
     os.system('cls||clear') # Clears terminal for readability.
     main()
-    sleep(20 - time() % 20)
+    rprint("")
+    for _ in track(range(100), description="[purple]Délai API"):
+
+        sleep(0.6)
+    
