@@ -4,7 +4,8 @@ from time import time, sleep
 from rich import print as rprint
 from rich.progress import track
 
-api_url = "https://api.gtaliferp.fr:8443/v1/extinction/profiles/discord/304629682769494026"
+discord_id = "304629682769494026"
+api_url = "https://api.gtaliferp.fr:8443/v1/extinction/profiles/discord/" + discord_id
 
 
 headers = {
@@ -31,7 +32,7 @@ stats_dict = {
     "kill":9,
     "death":11,
     "ratio":29,
-    "zombie_redzone":23,
+    "zombie_redzone":6,
     "kill_redzone":4,
     "death_redzone":8,
     "ratio_redzone":30,
